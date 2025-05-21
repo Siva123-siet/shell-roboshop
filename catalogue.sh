@@ -72,7 +72,7 @@ VALIDATE $? "Enabling catalogue service"
 systemctl start catalogue &>> $LOG_FILE
 VALIDATE $? "Starting catalogue service"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo
+cp mongo.repo /etc/yum.repos.d/mongodb.repo
 VALIDATE $? "Copying mongo repo to the path"
 
 dnf install mongodb-mongosh -y &>> $LOG_FILE
