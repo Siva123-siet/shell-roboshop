@@ -78,6 +78,9 @@ VALIDATE $? "Enabling catalogue service"
 systemctl start catalogue &>> $LOG_FILE
 VALIDATE $? "Starting catalogue service"
 
+rm -rf /etc/yum.repos.d/*
+VALIDATE $? "removed all mongo repos content"
+
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongodb.repo
 VALIDATE $? "Copying mongo repo to the path"
 
