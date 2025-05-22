@@ -81,8 +81,8 @@ VALIDATE $? "Starting catalogue service"
 rm -rf /etc/yum.repos.d/*
 VALIDATE $? "removed all mongo repos content"
 
-cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongodb.repo
-VALIDATE $? "Copying mongo repo to the path"
+#cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongodb.repo
+#VALIDATE $? "Copying mongo repo to the path"
 
 dnf install mongodb-mongosh -y &>> $LOG_FILE
 VALIDATE $? "Installing mongodb"
