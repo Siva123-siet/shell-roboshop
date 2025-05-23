@@ -39,6 +39,9 @@ VALIDATE $? "Installing nginx server"
 systemctl enable nginx &>> $LOGS_FILE
 VALIDATE $? "Enabling nginx service"
 
+cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &>> $LOGS_FILE
+VALIDATE $? "Copying content into nginx.conf"
+
 systemctl start nginx &>> $LOGS_FILE
 VALIDATE $? "Starting nginx service"
 
