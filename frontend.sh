@@ -7,7 +7,7 @@ N="\e[0m"
 LOGS_FOLDER="/var/log/roboshop-logs"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOGS_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
-SCRIPT_DIR=$PWD
+#SCRIPT_DIR=$PWD
 mkdir -p $LOGS_FOLDER
 echo "Script started executing at: $(date)" | tee -a $LOGS_FILE
 if [ $Userid -ne 0 ]
@@ -54,7 +54,7 @@ VALIDATE $? "Navigating to the path"
 unzip /tmp/frontend.zip
 VALIDATE $? "Unzipping the frontend zipped file in /usr/share/nginx/html path"
 
-cp $SCRIPT_DIR/nginx.service /etc/nginx/nginx.conf &>> $LOGS_FILE
+cp nginx.service /etc/nginx/nginx.conf &>> $LOGS_FILE
 VALIDATE $? "Copying content into nginx.conf"
 
 systemctl restart nginx &>> $LOGS_FILE
