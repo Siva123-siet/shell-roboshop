@@ -54,7 +54,7 @@ VALIDATE $? "Navigating to the path"
 unzip /tmp/frontend.zip
 VALIDATE $? "Unzipping the frontend zipped file in /usr/share/nginx/html path"
 
-rm -rf /etc/nginx/*
+rm -rf /etc/nginx/nginx.conf
 cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &>> $LOGS_FILE
 VALIDATE $? "Copying content into nginx.conf"
 
