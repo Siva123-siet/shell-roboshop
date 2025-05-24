@@ -22,6 +22,9 @@ else
     echo "You are running with root access" | tee -a $LOG_FILE
 fi
 
+echo "Please enter root password to setup"
+read -s MYSQL_ROOT_PASSWORD
+
 # validate functions takes input as exit status, what command they tried to install
 VALIDATE(){
     if [ $1 -eq 0 ]
@@ -51,6 +54,7 @@ VALIDATE $? "Creating app directory"
 curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
 VALIDATE $? "Downloading the code in temp direcory"
 
+rm -rf /app/*
 cd /app 
 VALIDATE $? "Moving to app directory"
 rm -rf /app/*
@@ -75,6 +79,23 @@ VALIDATE $? "Enabling shipping service"
 
 systemctl start shipping &>> $LOG_FILE
 VALIDATE $? "Starting shipping service"
+
+dnf install mysql -y  &>>$LOG_FILE
+VALIDATE $? "Install MySQL"
+
+mysql -h mysql.daws-84s.store -u root -p$MYSQL_ROOT_PASSWORD -e 'use cities' &>>$LOG_FILE
+if [ $? -ne 0 ]
+then
+    mysql -h mysql.daws-84s.store -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/schema.sql &>>$LOG_FILE
+    mysql -h mysql.daws-84s.store -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/app-user.sql  &>>$LOG_FILE
+    mysql -h mysql.daws-84s.store -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/master-data.sql &>>$LOG_FILE
+    VALIDATE $? "Loading data into MySQL"
+else
+    echo -e "Data is already loaded into MySQL ... $Y SKIPPING $N"
+fi
+
+systemctl restart shipping &>>$LOG_FILE
+VALIDATE $? "Restart shipping"
 
 END_TIME=$(date +%s)
 TOTAL_TIME=$(( $END_TIME - $START_TIME ))
