@@ -43,9 +43,9 @@ dnf module disable nodejs -y &>> $LOG_FILE
 VALIDATE $? "Disabling nodejs"
 
 dnf module enable nodejs:20 -y &>> $LOG_FILE
-VALIDATE $? "Enabling nodejsss"
+VALIDATE $? "Enabling nodejs"
 
-dnf install nodejs -y &>> $LOG_FILE
+dnf install nodejssss -y &>> $LOG_FILE
 VALIDATE $? "Installing nodejs"
 
 id roboshop
